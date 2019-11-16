@@ -18,11 +18,11 @@ class StudentList extends React.Component {
     super(props)
   }
   render() {
-    let { listOfStudents, searchQuery } = this.props
+    let { listOfStudents, searchQuery, addTags } = this.props
     return (
       <StudentListStyle>
         <SearchBarStyle><SearchBar searchQuery={searchQuery} /></SearchBarStyle>
-        {listOfStudents.map((student) => <StudentEntry key={student.id} student={student}/>)}
+        {listOfStudents.map((student) => <StudentEntry addTags={addTags} key={student.id} student={student}/>)}
       </StudentListStyle>
     )
   }

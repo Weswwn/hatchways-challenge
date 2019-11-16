@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Grades from './Grades.jsx';
+import Tags from './Tags.jsx';
 
 const StudentBody = styled.div`
   position: relative;
@@ -48,16 +49,31 @@ const ButtonStyle = styled.div`
   padding-top: 25px;
 `
 
+const TagStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
 class StudentEntry extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       expanded: false,
-      buttonDisplay: '+'
+      buttonDisplay: '+',
+      tag: ''
     }
     this.calculateGradeAverage = this.calculateGradeAverage.bind(this);
     this.expandStudent = this.expandStudent.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
+
+  onChange(e) {
+    this.setState({
+      tag: e.target.value
+    })
+  }
+
   calculateGradeAverage(grades) {
     let average = 0;
     for (let i = 0; i < grades.length; i++) {
@@ -83,8 +99,19 @@ class StudentEntry extends React.Component {
       expanded: !prevState.expanded
     }))
   }
+
+  onSubmit(e) {
+    e.preventDefault();
+    let { addTags } = this.props;
+    let { id } = this.props.student
+    let { tag } = this.state;
+    addTags(tag, id)
+  }
+
   render() {
-    let { pic, firstName, lastName, email, company, skill, grades } = this.props.student;
+    let { pic, firstName, lastName, email, company, skill, grades, tags } = this.props.student;
+    let tagsArray = Object.keys(tags);
+    console.log(tags);
     return (
       <StudentBody>
         <ProfilePictureStyle>
@@ -93,7 +120,7 @@ class StudentEntry extends React.Component {
 
         <StudentData>
           <StudentName>
-            {`${firstName} ${lastName}`}
+            {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
           </StudentName>
           <div>
             Email: {email}
@@ -113,6 +140,11 @@ class StudentEntry extends React.Component {
         </ButtonStyle>
         {this.state.expanded === true ? <GradeStyle>
           {grades.map((grade, i) => <Grades key={i} index={i} grade={grade} />)}
+          <TagStyle>{tagsArray.map((tag, i) => <Tags key={i} index={i} tag={tag}/>)}</TagStyle>
+          <form onSubmit={this.onSubmit}>
+            <input onChange={this.onChange} id="add-tag-input" type="text"></input>
+            <input type="submit" hidden={true}/>
+          </form>
         </GradeStyle> : null }
       </StudentBody>
     )

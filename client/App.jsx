@@ -25,12 +25,14 @@ class App extends React.Component {
     }
     this.searchQuery = this.searchQuery.bind(this);
     this.filterArray = this.filterArray.bind(this);
+    this.addTags = this.addTags.bind(this);
   }
 
   componentDidMount() {
     axios.get('/students')
       .then((response) => {
         let { students } = response.data
+        students.forEach(student => student.tags = {});
         this.setState({
           listOfStudents: students,
           masterCopyOfStudents: students
@@ -59,6 +61,30 @@ class App extends React.Component {
     }
   }
 
+  addTags(tagToAdd, studentID) {
+    let { listOfStudents, masterCopyOfStudents } = this.state;
+    let tempListOfStudents = listOfStudents;
+    let tempMasterCopyOfStudents = masterCopyOfStudents;
+
+    console.log(tagToAdd, studentID);
+    tempListOfStudents.forEach(student => {
+      if (student.id === studentID) {
+        student.tags[tagToAdd] = tagToAdd;
+      }
+      this.setState({
+        listOfStudents: tempListOfStudents
+      })
+      tempMasterCopyOfStudents.forEach(student => {
+        if (student.id === studentID) {
+          student.tags[tagToAdd] = tagToAdd;
+        }
+        this.setState({
+          masterCopyOfStudents: tempMasterCopyOfStudents
+        })
+      })
+    })
+  }
+
   searchQuery(e) {
     this.setState({
       query: e.target.value
@@ -70,7 +96,7 @@ class App extends React.Component {
   render() {
     return (
       <MainStudentComponent>
-        <StudentList searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
+        <StudentList addTags={this.addTags} searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
       </MainStudentComponent>
     )
   }
