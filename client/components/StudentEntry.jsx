@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StudentBody = styled.div`
-  width: 100%;
-  height: 150;
+  width: 80%;
   padding: 20px;
   margin: 20px;
 `
@@ -28,7 +27,12 @@ const StudentData = styled.div`
   flex-direction: column;
   justify-content: left;
   align-items: left;
-  margin: 10px;
+  /* margin: 10px 10px 10px 20px;
+  padding: 10px 10px 10px 20px; */
+`
+const StudentName = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
 `
 
 class StudentEntry extends React.Component {
@@ -57,10 +61,11 @@ class StudentEntry extends React.Component {
         <ProfilePictureStyle>
           <img style={{height: '100px', width: '100px'}} src={pic} />
         </ProfilePictureStyle>
+
         <StudentData>
-          <div>
+          <StudentName>
             {`${firstName} ${lastName}`}
-          </div>
+          </StudentName>
           <div>
             Email: {email}
           </div>
@@ -74,6 +79,7 @@ class StudentEntry extends React.Component {
             Grades: {`${this.calculateGradeAverage(grades)}%`}
           </div>
         </StudentData>
+        
       </StudentBody>
     )
   }
