@@ -78,11 +78,6 @@ class App extends React.Component {
         listOfStudents: responseData
       })
     }
-    if (searchString.length === 0) {
-      this.setState({
-        listOfStudents: this.state.masterCopyOfStudents
-      })
-    }
   }
 
   filterTagsArray() {
@@ -96,19 +91,30 @@ class App extends React.Component {
         }
       })
     }
-    // if (this.state.query.length > 0) {
-    //   console.log('hi');
-    //   let temp = [...this.state.listOfStudents];
+    if (this.state.query.length > 0) {
+      console.log('hi');
+      let temp = [...this.state.listOfStudents];
+      temp = temp.concat(responseData);
+      console.log('temp', temp);
+      console.log('response', responseData);
 
-    //   console.log(array);
-    //   this.setState({
-    //     listOfStudents: array
-    //   })
-    // } else {
+      var hash = Object.create(null), result = [];
+
+      for (let i = 0; i < temp.length; i++) {
+          if (!hash[temp[i].id]) {
+              hash[temp[i].id] = true;
+              result.push(temp[i]);
+          }
+      }
+      console.log('new temp', result);
+      this.setState({
+        listOfStudents: result
+      })
+    } else {
       this.setState({
         listOfStudents: responseData
       })
-    // }
+    }
   }
 
   searchQuery(e) {
