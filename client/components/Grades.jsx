@@ -1,14 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 
 class Grades extends React.Component {
   constructor(props) {
     super(props)
-  }
+  } 
   render() {
-    let { i, grade } = this.props;
+    let { index, grade } = this.props;
     return (
       <div>
-        Test{i} {grade}%
+        Test {index + 1}: {grade}%
       </div>
     )
   }

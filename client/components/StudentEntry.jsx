@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Grades from './Grades.jsx';
 
 const StudentBody = styled.div`
+  position: relative;
   width: 80%;
   padding: 20px;
   margin: 20px;
@@ -35,12 +36,24 @@ const StudentName = styled.div`
   font-size: 2rem;
   font-weight: bold;
 `
+const GradeStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const ButtonStyle = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  float: right;
+  padding-top: 25px;
+`
 
 class StudentEntry extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      expanded: false
+      expanded: false,
+      buttonDisplay: '+'
     }
     this.calculateGradeAverage = this.calculateGradeAverage.bind(this);
     this.expandStudent = this.expandStudent.bind(this);
@@ -56,13 +69,22 @@ class StudentEntry extends React.Component {
   }
 
   expandStudent() {
-    this.setState(prevState => ({
+    if (this.state.buttonDisplay === '-') {
+      this.setState({
+        buttonDisplay: '+'
+      })
+    } else {
+      this.setState({
+        buttonDisplay: '-'
+      })
+    }
+    this.setState(prevState => (
+      {
       expanded: !prevState.expanded
     }))
   }
   render() {
     let { pic, firstName, lastName, email, company, skill, grades } = this.props.student;
-    console.log(grades);
     return (
       <StudentBody>
         <ProfilePictureStyle>
@@ -83,15 +105,15 @@ class StudentEntry extends React.Component {
             Skill: {skill}
           </div>
           <div>
-            Grades: {`${this.calculateGradeAverage(grades)}%`}
+            Average: {`${this.calculateGradeAverage(grades)}%`}
           </div>
         </StudentData>
-          <div>
-            <button id="expand-btn" onClick={this.expandStudent}>EXPAND</button>
-          </div>
-        {this.state.expanded === true ? <div>
-          {grades.map((grade, i) => <Grades index={i} grade={grade} />)}
-        </div> : null }
+        <ButtonStyle>
+          <button id="expand-btn" onClick={this.expandStudent}>{this.state.buttonDisplay}</button>
+        </ButtonStyle>
+        {this.state.expanded === true ? <GradeStyle>
+          {grades.map((grade, i) => <Grades key={i} index={i} grade={grade} />)}
+        </GradeStyle> : null }
       </StudentBody>
     )
   }
