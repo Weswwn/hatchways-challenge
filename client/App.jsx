@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       listOfStudents: [],
-      filteredListOfStudents: [],
+      // filteredListOfStudents: [],
       userNameSearch: [],
       tagSearch: [],
       query: '',
@@ -78,18 +78,31 @@ class App extends React.Component {
 
     if (searchString.length > 0) {
       responseData = responseData.filter(student => student.firstName.toLowerCase().includes(searchString) || student.lastName.toLowerCase().includes(searchString))
-      if (this.state.tagSearchQuery > 0) {
-
-      } else {
+      if (this.state.tagSearchQuery.length > 0 && this.state.tagSearch.length !== 0) {
+        let temp = [...this.state.tagSearch];
+        temp = temp.concat(responseData);
+        console.log(temp);
+        let hash = Object.create(null), result = [];
+        for (let i = 0; i < temp.length; i++) {
+            if (!hash[temp[i].id]) {
+                hash[temp[i].id] = true;
+                result.push(temp[i]);
+            }
+        }
+        console.log('new temp', result);
         this.setState({
-          listOfStudents: responseData,
-          userNameSearch: responseData
+          listOfStudents: result
         })
+        } else {
+          this.setState({
+            listOfStudents: responseData,
+            userNameSearch: responseData
+          })
+        }
       }
-    }
     if (searchString.length === 0) {
       this.setState({
-        listOfStudents: this.state.masterCopyOfStudents,
+        listOfStudents: this.state.tagSearch,
         userNameSearch: this.state.masterCopyOfStudents
       })
     }
@@ -106,8 +119,8 @@ class App extends React.Component {
         }
       })
     }
-    if (this.state.query.length > 0) {
-      let temp = [...this.state.listOfStudents];
+    if (this.state.query.length > 0 && this.state.userNameSearch.length !== 0) {
+      let temp = [...this.state.userNameSearch];
       temp = temp.concat(responseData);
 
       let hash = Object.create(null), result = [];
@@ -130,7 +143,8 @@ class App extends React.Component {
     }
     if (searchTagString.length === 0) {
       this.setState({
-        listOfStudents: this.state.userNameSearch
+        listOfStudents: this.state.userNameSearch,
+        tagSearch: this.state.masterCopyOfStudents
       })
     }
   }
