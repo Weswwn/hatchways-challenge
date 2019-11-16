@@ -12,7 +12,6 @@ const TagStyle = styled.div`
   margin: 10px;
   border-radius: 11px;
 `
-
 class Tags extends React.Component {
   constructor(props) {
     super(props)
