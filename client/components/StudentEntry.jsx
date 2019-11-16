@@ -46,7 +46,6 @@ class StudentEntry extends React.Component {
   calculateGradeAverage(grades) {
     let average = 0;
     for (let i = 0; i < grades.length; i++) {
-      console.log(grades[i]);
       average = average + parseInt(grades[i]);
     }
     average = average / (grades.length);

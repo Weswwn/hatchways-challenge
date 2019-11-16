@@ -15,32 +15,62 @@ const MainStudentComponent = styled.div`
   margin-left: auto;
   border-radius: 20px;
 `
-
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      listOfStudents: []
+      listOfStudents: [],
+      filteredListOfStudents: [],
+      query: ''
     }
+    this.searchQuery = this.searchQuery.bind(this);
+    this.filterArray = this.filterArray.bind(this);
   }
 
   componentDidMount() {
     axios.get('/students')
       .then((response) => {
-        console.log(response);
         let { students } = response.data
         this.setState({
-          listOfStudents: students
+          listOfStudents: students,
+          masterCopyOfStudents: students
         })
       })
       .catch((error) => {
         console.log(error);
       })
   }
+
+  filterArray() {
+    let searchString = this.state.query;
+    let responseData = this.state.masterCopyOfStudents;
+    // console.log(searchString, responseData);
+
+    if (searchString.length > 0) {
+      responseData = responseData.filter(student => student.firstName.includes(searchString) || student.lastName.includes(searchString))
+      this.setState({
+        listOfStudents: responseData
+      })
+    }
+    if (searchString.length === 0) {
+      this.setState({
+        listOfStudents: this.state.masterCopyOfStudents
+      })
+    }
+  }
+
+  searchQuery(e) {
+    this.setState({
+      query: e.target.value
+    }, () => {
+      this.filterArray();
+    })
+  }
+
   render() {
     return (
       <MainStudentComponent>
-        <StudentList listOfStudents={this.state.listOfStudents} />
+        <StudentList searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
       </MainStudentComponent>
     )
   }
