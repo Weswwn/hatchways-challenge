@@ -1,12 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const SearchBarStyle = styled.input`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 10px;
-`
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -15,18 +7,22 @@ class SearchBar extends React.Component {
         searchValue: ''
       }
       this.onChange = this.onChange.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e) {
-    e.preventDefault();
     let { searchQuery } = this.props;
     searchQuery(e);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
   }
 
   render() {
     return (
       <div>
-        <form>
-          <SearchBarStyle onChange={this.onChange} id="name-input" type="text" placeholder="Search name here!"></SearchBarStyle>
+        <form onSubmit={this.onSubmit}>
+          <input onChange={this.onChange} id="name-input" type="text" placeholder="Search name here!"></input>
         </form>
       </div>
     )

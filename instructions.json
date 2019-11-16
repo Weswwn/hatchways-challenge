@@ -1,0 +1,5 @@
+{
+  "build": "webpack --mode development",
+  "start": "nodemon ./server/index.js",
+  "port": 3000
+ }

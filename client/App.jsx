@@ -20,7 +20,6 @@ class App extends React.Component {
     super(props)
     this.state = {
       listOfStudents: [],
-      // filteredListOfStudents: [],
       userNameSearch: [],
       tagSearch: [],
       query: '',
@@ -81,15 +80,15 @@ class App extends React.Component {
       if (this.state.tagSearchQuery.length > 0 && this.state.tagSearch.length !== 0) {
         let temp = [...this.state.tagSearch];
         temp = temp.concat(responseData);
-        console.log(temp);
+
         let hash = Object.create(null), result = [];
+
         for (let i = 0; i < temp.length; i++) {
             if (!hash[temp[i].id]) {
                 hash[temp[i].id] = true;
                 result.push(temp[i]);
             }
         }
-        console.log('new temp', result);
         this.setState({
           listOfStudents: result
         })
@@ -131,7 +130,6 @@ class App extends React.Component {
               result.push(temp[i]);
           }
       }
-      console.log('new temp', result);
       this.setState({
         listOfStudents: result
       })
