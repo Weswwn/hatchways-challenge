@@ -11,13 +11,14 @@ const SearchBarStyle = styled.input`
 class SearchBar extends React.Component {
   constructor(props) {
     super(props)
-      this. state = {
+      this.state = {
         searchValue: ''
       }
       this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
     let { searchQuery } = this.props;
+    console.log(e.target.value);
     searchQuery(e);
   }
 

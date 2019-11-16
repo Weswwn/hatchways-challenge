@@ -135,16 +135,21 @@ class StudentEntry extends React.Component {
             Average: {`${this.calculateGradeAverage(grades)}%`}
           </div>
         </StudentData>
+        
         <ButtonStyle>
           <button id="expand-btn" onClick={this.expandStudent}>{this.state.buttonDisplay}</button>
         </ButtonStyle>
-        {this.state.expanded === true ? <GradeStyle>
+
+        {this.state.expanded === true ? 
+        <GradeStyle>
           {grades.map((grade, i) => <Grades key={i} index={i} grade={grade} />)}
           <TagStyle>{tagsArray.map((tag, i) => <Tags key={i} index={i} tag={tag}/>)}</TagStyle>
+
           <form onSubmit={this.onSubmit}>
             <input onChange={this.onChange} id="add-tag-input" type="text"></input>
             <input type="submit" hidden={true}/>
           </form>
+
         </GradeStyle> : null }
       </StudentBody>
     )

@@ -26,6 +26,7 @@ class App extends React.Component {
     this.searchQuery = this.searchQuery.bind(this);
     this.filterArray = this.filterArray.bind(this);
     this.addTags = this.addTags.bind(this);
+    this.searchTagQuery = this.searchTagQuery.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +87,7 @@ class App extends React.Component {
   }
 
   searchQuery(e) {
+    
     this.setState({
       query: e.target.value
     }, () => {
@@ -93,10 +95,14 @@ class App extends React.Component {
     })
   }
 
+  searchTagQuery(e) {
+
+  }
+
   render() {
     return (
       <MainStudentComponent>
-        <StudentList addTags={this.addTags} searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
+        <StudentList searchTagQuery={this.searchTagQuery} addTags={this.addTags} searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
       </MainStudentComponent>
     )
   }
