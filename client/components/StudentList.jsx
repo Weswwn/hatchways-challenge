@@ -1,5 +1,10 @@
 import React from 'react';
 import StudentEntry from './StudentEntry.jsx';
+import styled from 'styled-components';
+
+const StudentListStyle = styled.div`
+  width: 100%;
+`
 
 class StudentList extends React.Component {
   constructor(props) {
@@ -8,9 +13,9 @@ class StudentList extends React.Component {
   render() {
     let { listOfStudents } = this.props
     return (
-      <div>
+      <StudentListStyle>
         {listOfStudents.map((student) => <StudentEntry key={student.id} student={student}/>)}
-      </div>
+      </StudentListStyle>
     )
   }
 }
