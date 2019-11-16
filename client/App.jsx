@@ -44,10 +44,10 @@ class App extends React.Component {
   filterArray() {
     let searchString = this.state.query;
     let responseData = this.state.masterCopyOfStudents;
-    // console.log(searchString, responseData);
 
     if (searchString.length > 0) {
-      responseData = responseData.filter(student => student.firstName.includes(searchString) || student.lastName.includes(searchString))
+      searchString = searchString.toLowerCase();
+      responseData = responseData.filter(student => student.firstName.toLowerCase().includes(searchString) || student.lastName.toLowerCase().includes(searchString))
       this.setState({
         listOfStudents: responseData
       })
