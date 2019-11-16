@@ -1,5 +1,5 @@
 import React from 'react';
-import StudentEntry from './StudentEntry';
+import StudentEntry from './StudentEntry.jsx';
 
 class StudentList extends React.Component {
   constructor(props) {
@@ -8,7 +8,9 @@ class StudentList extends React.Component {
   render() {
     let { listOfStudents } = this.props
     return (
-      listOfStudents.map(student => <StudentEntry student={student}/>)
+      <div>
+        {listOfStudents.map((student) => <StudentEntry key={student.id} student={student}/>)}
+      </div>
     )
   }
 }
