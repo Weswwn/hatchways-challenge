@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Grades from './Grades.jsx';
 
 const StudentBody = styled.div`
   width: 80%;
@@ -39,9 +40,10 @@ class StudentEntry extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      expanded: false
     }
     this.calculateGradeAverage = this.calculateGradeAverage.bind(this);
+    this.expandStudent = this.expandStudent.bind(this);
   }
   calculateGradeAverage(grades) {
     let average = 0;
@@ -52,9 +54,15 @@ class StudentEntry extends React.Component {
     return average;
 
   }
+
+  expandStudent() {
+    this.setState(prevState => ({
+      expanded: !prevState.expanded
+    }))
+  }
   render() {
     let { pic, firstName, lastName, email, company, skill, grades } = this.props.student;
-    
+    console.log(grades);
     return (
       <StudentBody>
         <ProfilePictureStyle>
@@ -78,7 +86,12 @@ class StudentEntry extends React.Component {
             Grades: {`${this.calculateGradeAverage(grades)}%`}
           </div>
         </StudentData>
-        
+          <div>
+            <button id="expand-btn" onClick={this.expandStudent}>EXPAND</button>
+          </div>
+        {this.state.expanded === true ? <div>
+          {grades.map((grade, i) => <Grades index={i} grade={grade} />)}
+        </div> : null }
       </StudentBody>
     )
   }
