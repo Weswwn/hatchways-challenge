@@ -21,6 +21,8 @@ class App extends React.Component {
     this.state = {
       listOfStudents: [],
       filteredListOfStudents: [],
+      userNameSearch: [],
+      tagSearch: [],
       query: '',
       tagSearchQuery: ''
     }
@@ -37,7 +39,9 @@ class App extends React.Component {
         students.forEach(student => student.tags = {});
         this.setState({
           listOfStudents: students,
-          masterCopyOfStudents: students
+          masterCopyOfStudents: students,
+          userNameSearch: students,
+          tagSearch: students
         })
       })
       .catch((error) => {
@@ -74,8 +78,19 @@ class App extends React.Component {
 
     if (searchString.length > 0) {
       responseData = responseData.filter(student => student.firstName.toLowerCase().includes(searchString) || student.lastName.toLowerCase().includes(searchString))
+      if (this.state.tagSearchQuery > 0) {
+
+      } else {
+        this.setState({
+          listOfStudents: responseData,
+          userNameSearch: responseData
+        })
+      }
+    }
+    if (searchString.length === 0) {
       this.setState({
-        listOfStudents: responseData
+        listOfStudents: this.state.masterCopyOfStudents,
+        userNameSearch: this.state.masterCopyOfStudents
       })
     }
   }
@@ -92,13 +107,10 @@ class App extends React.Component {
       })
     }
     if (this.state.query.length > 0) {
-      console.log('hi');
       let temp = [...this.state.listOfStudents];
       temp = temp.concat(responseData);
-      console.log('temp', temp);
-      console.log('response', responseData);
 
-      var hash = Object.create(null), result = [];
+      let hash = Object.create(null), result = [];
 
       for (let i = 0; i < temp.length; i++) {
           if (!hash[temp[i].id]) {
@@ -112,7 +124,13 @@ class App extends React.Component {
       })
     } else {
       this.setState({
-        listOfStudents: responseData
+        listOfStudents: responseData,
+        tagSearch: responseData
+      })
+    }
+    if (searchTagString.length === 0) {
+      this.setState({
+        listOfStudents: this.state.userNameSearch
       })
     }
   }
