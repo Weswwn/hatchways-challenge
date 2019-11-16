@@ -111,7 +111,6 @@ class StudentEntry extends React.Component {
   render() {
     let { pic, firstName, lastName, email, company, skill, grades, tags } = this.props.student;
     let tagsArray = Object.keys(tags);
-    console.log(tags);
     return (
       <StudentBody>
         <ProfilePictureStyle>
@@ -135,7 +134,7 @@ class StudentEntry extends React.Component {
             Average: {`${this.calculateGradeAverage(grades)}%`}
           </div>
         </StudentData>
-        
+
         <ButtonStyle>
           <button id="expand-btn" onClick={this.expandStudent}>{this.state.buttonDisplay}</button>
         </ButtonStyle>
@@ -143,7 +142,7 @@ class StudentEntry extends React.Component {
         {this.state.expanded === true ? 
         <GradeStyle>
           {grades.map((grade, i) => <Grades key={i} index={i} grade={grade} />)}
-          <TagStyle>{tagsArray.map((tag, i) => <Tags key={i} index={i} tag={tag}/>)}</TagStyle>
+          <TagStyle>{tagsArray.map((tag, i) => <Tags key={`${i}a`} index={i} tag={tag}/>)}</TagStyle>
 
           <form onSubmit={this.onSubmit}>
             <input onChange={this.onChange} id="add-tag-input" type="text"></input>

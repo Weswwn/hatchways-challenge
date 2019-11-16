@@ -17,8 +17,8 @@ class SearchBar extends React.Component {
       this.onChange = this.onChange.bind(this);
   }
   onChange(e) {
+    e.preventDefault();
     let { searchQuery } = this.props;
-    console.log(e.target.value);
     searchQuery(e);
   }
 
@@ -26,7 +26,7 @@ class SearchBar extends React.Component {
     return (
       <div>
         <form>
-          <SearchBarStyle onChange={this.onChange} id="name-input" onChange={this.onChange} type="text" placeholder="Search name here!"></SearchBarStyle>
+          <SearchBarStyle onChange={this.onChange} id="name-input" type="text" placeholder="Search name here!"></SearchBarStyle>
         </form>
       </div>
     )

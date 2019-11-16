@@ -20,12 +20,12 @@ class StudentList extends React.Component {
     super(props)
   }
   render() {
-    let { listOfStudents, searchQuery, addTags, searchTagQuery} = this.props
+    let { listOfStudents, searchQuery, addTags} = this.props
     return (
       <StudentListStyle>
         <SearchBarStyle><SearchBar searchQuery={searchQuery} /></SearchBarStyle>
-        <SearchBarStyle><TagSearchBar searchTagQuery={searchTagQuery}/></SearchBarStyle>
-        {listOfStudents.map((student) => <StudentEntry addTags={addTags} key={student.id} student={student}/>)}
+        <SearchBarStyle><TagSearchBar searchQuery={searchQuery}/></SearchBarStyle>
+        {listOfStudents.map((student) => <StudentEntry addTags={addTags} key={`${student.id}a`} student={student}/>)}
       </StudentListStyle>
     )
   }

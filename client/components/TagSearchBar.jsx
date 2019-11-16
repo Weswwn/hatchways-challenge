@@ -3,19 +3,21 @@ import React from 'react';
 class TagSearchBar extends React.Component {
   constructor(props) {
     super(props)
+    this.onChange = this.onChange.bind(this);
   }
-
+  
   onChange(e) {
-    let { searchTagQuery } = this.props;
-    searchTagQuery(e.target.id)
+    e.preventDefault();
+    let { searchQuery } = this.props;
+    searchQuery(e);
   }
 
   render () {
     return (
       <div>
         <form>
-          <input onChange={this.onChange} type="text"></input>
-          <input type="submit" hidden={true} placeholder="Search Tag Here"></input>
+          <input id="tag-input" onChange={this.onChange} type="text"></input>
+          {/* <input type="submit" hidden={true} placeholder="Search Tag Here"></input> */}
         </form>
       </div>
     )

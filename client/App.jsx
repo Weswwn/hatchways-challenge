@@ -21,12 +21,13 @@ class App extends React.Component {
     this.state = {
       listOfStudents: [],
       filteredListOfStudents: [],
-      query: ''
+      query: '',
+      tagSearchQuery: ''
     }
     this.searchQuery = this.searchQuery.bind(this);
     this.filterArray = this.filterArray.bind(this);
     this.addTags = this.addTags.bind(this);
-    this.searchTagQuery = this.searchTagQuery.bind(this);
+    this.filterTagsArray = this.filterTagsArray.bind(this);
   }
 
   componentDidMount() {
@@ -44,30 +45,11 @@ class App extends React.Component {
       })
   }
 
-  filterArray() {
-    let searchString = this.state.query;
-    let responseData = this.state.masterCopyOfStudents;
-
-    if (searchString.length > 0) {
-      searchString = searchString.toLowerCase();
-      responseData = responseData.filter(student => student.firstName.toLowerCase().includes(searchString) || student.lastName.toLowerCase().includes(searchString))
-      this.setState({
-        listOfStudents: responseData
-      })
-    }
-    if (searchString.length === 0) {
-      this.setState({
-        listOfStudents: this.state.masterCopyOfStudents
-      })
-    }
-  }
-
   addTags(tagToAdd, studentID) {
     let { listOfStudents, masterCopyOfStudents } = this.state;
     let tempListOfStudents = listOfStudents;
     let tempMasterCopyOfStudents = masterCopyOfStudents;
 
-    console.log(tagToAdd, studentID);
     tempListOfStudents.forEach(student => {
       if (student.id === studentID) {
         student.tags[tagToAdd] = tagToAdd;
@@ -86,23 +68,69 @@ class App extends React.Component {
     })
   }
 
-  searchQuery(e) {
-    
-    this.setState({
-      query: e.target.value
-    }, () => {
-      this.filterArray();
-    })
+  filterArray() {
+    let searchString = this.state.query.toLowerCase();
+    let responseData = this.state.masterCopyOfStudents;
+
+    if (searchString.length > 0) {
+      responseData = responseData.filter(student => student.firstName.toLowerCase().includes(searchString) || student.lastName.toLowerCase().includes(searchString))
+      this.setState({
+        listOfStudents: responseData
+      })
+    }
+    if (searchString.length === 0) {
+      this.setState({
+        listOfStudents: this.state.masterCopyOfStudents
+      })
+    }
   }
 
-  searchTagQuery(e) {
+  filterTagsArray() {
+    let searchTagString = this.state.tagSearchQuery.toLowerCase();
+    let responseData = this.state.masterCopyOfStudents;
+    if (searchTagString.length > 0) {
+      responseData = responseData.filter(student => {
+        let string = Object.keys(student.tags).join();
+        if (string.toLowerCase().includes(searchTagString)) {
+          return true;
+        }
+      })
+    }
+    // if (this.state.query.length > 0) {
+    //   console.log('hi');
+    //   let temp = [...this.state.listOfStudents];
 
+    //   console.log(array);
+    //   this.setState({
+    //     listOfStudents: array
+    //   })
+    // } else {
+      this.setState({
+        listOfStudents: responseData
+      })
+    // }
+  }
+
+  searchQuery(e) {
+    if (e.target.id === 'tag-input') {
+      this.setState({
+        tagSearchQuery: e.target.value
+      }, () => {
+        this.filterTagsArray();
+      })
+    } else {
+      this.setState({
+        query: e.target.value
+      }, () => {
+        this.filterArray();
+      })
+    }
   }
 
   render() {
     return (
       <MainStudentComponent>
-        <StudentList searchTagQuery={this.searchTagQuery} addTags={this.addTags} searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
+        <StudentList searchQuery={this.searchQuery} addTags={this.addTags} searchQuery={this.searchQuery} listOfStudents={this.state.listOfStudents} />
       </MainStudentComponent>
     )
   }
